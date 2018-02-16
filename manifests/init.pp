@@ -63,8 +63,12 @@ class mediawiki (
   
   
   # Manages the mysql server package and service by default
-  class { 'mysql::server':
-    config_hash => { 'root_password' => $db_root_password },
+  if ( $db_root_password ) {
+    class { 'mysql::server':
+      config_hash => { 'root_password' => $db_root_password },
+    }
+  } else {
+    include ::mysql::server
   }
 
   package { $mediawiki::params::packages:
