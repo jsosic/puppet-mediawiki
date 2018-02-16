@@ -129,7 +129,7 @@ define mediawiki::instance (
       }
      
       # Each instance has a separate vhost configuration
-      apache::vhost { $name:
+      ::apache::vhost { $name:
         port          => $port,
         docroot       => $doc_root,
         serveradmin   => $admin_email,
@@ -155,7 +155,7 @@ define mediawiki::instance (
         recurse  => true,
       }
 
-      mysql::db { $db_name:
+      ::mysql::db { $db_name:
         user     => $db_user,
         password => $db_password,
         host     => 'localhost',
@@ -163,7 +163,7 @@ define mediawiki::instance (
         ensure   => 'absent',
       }
 
-      apache::vhost { $name:
+      ::apache::vhost { $name:
         port          => $port,
         docroot       => $doc_root,
         ensure        => 'absent',
