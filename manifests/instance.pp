@@ -58,13 +58,19 @@ define mediawiki::instance (
 
   # Make the configuration file more readable
   $admin_email             = $mediawiki::admin_email
-  $db_root_password        = $mediawiki::db_root_password
   $server_name             = $mediawiki::server_name
   $doc_root                = $mediawiki::doc_root
   $mediawiki_install_path  = $mediawiki::mediawiki_install_path
   $mediawiki_conf_dir      = $mediawiki::params::conf_dir
   $mediawiki_install_files = $mediawiki::params::installation_files
   $apache_daemon           = $mediawiki::params::apache_daemon
+
+  # fallback to mysql module if password is not defined
+  if ( $::mediawiki::db_root_password ) then {
+    $db_root_password = $::mediawiki::db_root_password
+  } else {
+    $db_root_password = $::mysql::server::root_password
+  }
 
   # Figure out how to improve db security (manually done by
   # mysql_secure_installation)
